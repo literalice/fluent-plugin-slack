@@ -87,6 +87,8 @@ DESC
 
     desc "channel to send messages (without first '#')."
     config_param :channel,              :string, default: nil
+    desc "specify if the channel to send messages is private or not."
+    config_param :private_channel,              :bool, default: false
     desc <<-DESC
 Keys used to format channel.
 %s will be replaced with value specified by channel_keys if this option is used.
@@ -135,7 +137,7 @@ DESC
 
       if @channel
         @channel = URI.unescape(@channel) # old version compatibility
-        if !@channel.start_with?('#') and !@channel.start_with?('@')
+        if !@channel.start_with?('#') and !@channel.start_with?('@') and !@private_channel
           @channel = '#' + @channel # Add # since `#` is handled as a comment in fluentd conf
         end
       end
